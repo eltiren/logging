@@ -10,8 +10,8 @@ import Foundation
 
 public class Log {
 
-    static var enabled = false
-    static var level = LogLevel.verbose
+    public static var enabled = false
+    public static var level = LogLevel.verbose
 
     private static var startTime: NSDate?
     private static var lastTime: NSDate?
@@ -35,15 +35,15 @@ public class Log {
         lastTime = time
     }
 
-    static func verbose(text: String) {
+    public static func verbose(text: String) {
         _print(text, level: .verbose)
     }
 
-    static func warning(text: String) {
+    public static func warning(text: String) {
         _print(text, level: .warning)
     }
 
-    static func error(text: String) {
+    public static func error(text: String) {
         _print(text, level: .error)
     }
 
