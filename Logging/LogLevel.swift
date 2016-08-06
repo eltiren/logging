@@ -15,7 +15,14 @@ public enum LogLevel: Int {
 
     var prefix: String {
         get {
-            return "\(self)"
+            switch self {
+            case .warning:
+                return "Warning"
+            case .error:
+                return "Error"
+            default:
+                return ""
+            }
         }
     }
 }
