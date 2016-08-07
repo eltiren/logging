@@ -17,9 +17,9 @@ public enum LogLevel: Int {
         get {
             switch self {
             case .warning:
-                return "Warning"
+                return "warning"
             case .error:
-                return "Error"
+                return "error"
             default:
                 return ""
             }

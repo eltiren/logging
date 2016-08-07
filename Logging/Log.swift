@@ -12,39 +12,41 @@ public class Log {
 
     public static var enabled = false
     public static var level = LogLevel.verbose
+    public static var dateFormatter = NSDateFormatter()
 
-    private static var startTime: NSDate?
-    private static var lastTime: NSDate?
-
-    private static func _print(object: AnyObject, level messageLevel: LogLevel) {
+    private static func _print(object: Any, scope: String?, level messageLevel: LogLevel, file: String, line: Int) {
         if !enabled || messageLevel.rawValue < level.rawValue {
             return
         }
 
-        let time = NSDate()
+        var text = ""
 
-        if let theLastTime = lastTime {
-            let deltaTimeStr = String(format: "%.03f", time.timeIntervalSinceDate(theLastTime) * 1000.0)
-            let absoluteTimeStr = String(format: "%.03f", time.timeIntervalSinceDate(startTime!))
-            print("\(absoluteTimeStr) +\(deltaTimeStr) \(messageLevel.prefix): \(object)")
-        } else {
-            print("0.000 +0.000 \(messageLevel.prefix): \(object)")
-            startTime = time
+        if let scope = scope {
+            text += "[\(scope)] "
         }
 
-        lastTime = time
+        text += dateFormatter.stringFromDate(NSDate())
+        text += " "
+
+        if level.prefix.characters.count > 0 {
+            text += "(\(level.prefix)) "
+        }
+
+        text += "\(object)\n"
+
+        debugPrint(text)
     }
 
-    public static func verbose(object: AnyObject) {
-        _print(object, level: .verbose)
+    public static func verbose(object: Any, scope: String? = nil, file: String = #file, line: Int = #line) {
+        _print(object, scope: scope, level: .verbose, file: file, line: line)
     }
 
-    public static func warning(object: AnyObject) {
-        _print(object, level: .warning)
+    public static func warning(object: Any, scope: String? = nil, file: String = #file, line: Int = #line) {
+        _print(object, scope: scope, level: .warning, file: file, line: line)
     }
 
-    public static func error(object: AnyObject) {
-        _print(object, level: .error)
+    public static func error(object: Any, scope: String? = nil, file: String = #file, line: Int = #line) {
+        _print(object, scope: scope, level: .error, file: file, line: line)
     }
 
 }
